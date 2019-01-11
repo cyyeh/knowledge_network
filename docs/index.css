@@ -66,10 +66,6 @@ body {
     z-index: 1000;
 }
 
-#search-select {
-    display: none;
-}
-
 .bootstrap-select {
     z-index: 1000;
     position: fixed;
