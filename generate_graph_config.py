@@ -12,27 +12,20 @@ for f in directory:
         with open(dotIO_posts_path + f, mode='r') as file_descriptor:
             lines = file_descriptor.read().splitlines()
             analysis = {
-                "tags": [],
-                "categories": []
+                "tags": []
             }
             filter_tags_set = {'in process', 'finished', 'waited'}
             read_tags_flag = False
-            read_categories_flag = False
             for line in lines:
                 if "tags:" in line:
                     read_tags_flag = True
                     read_categories_flag = False
                 elif "categories:" in line:
-                    read_categories_flag = True
-                    read_tags_flag = False
-                elif "description:" in line:
                     break
                 else:
                     content = line.split("- ")[-1]
                     if read_tags_flag and content not in filter_tags_set:
                         analysis["tags"].append(content)
-                    elif read_categories_flag:
-                        analysis["categories"].append(content)
             total_analysis[f] = analysis
 
 # convert dictionary type to json data
