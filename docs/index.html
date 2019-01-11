@@ -26,8 +26,32 @@
             </div>
         </nav>
 
+        <button id="help-button" type="button" class="btn btn-success" title="Help"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></button>
+
+        <div id="help-panel-container">
+            <div id="help-panel" class="panel panel-success">
+                <div class="panel-heading">
+                    Know more about this netwok
+                    <button id="panel-close-button" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="panel-body">
+                    Each orange icon means a tag, and each green icon means one particular article, and how each icon is chosen is based on the article's category. There are 8 categories, including:
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">Artificial Intelligence: <i class="fa fa-cogs" aria-hidden="true"></i></li>
+                    <li class="list-group-item">Computer Systems: <i class="fa fa-laptop" aria-hidden="true"></i></li>
+                    <li class="list-group-item">Data Structures & Algorithms: <i class="fa fa-file-text" aria-hidden="true"></i></li>
+                    <li class="list-group-item">Mathematics: <i class="fa fa-calculator" aria-hidden="true"></i></li>
+                    <li class="list-group-item">Programming: <i class="fa fa-code" aria-hidden="true"></i></li>
+                    <li class="list-group-item">Software Engineering: <i class="fa fa-users" aria-hidden="true"></i></li>
+                    <li class="list-group-item">Learning: <i class="fa fa-book" aria-hidden="true"></i></li>
+                    <li class="list-group-item">Research: <i class="fa fa-pencil-square-o" aria-hidden="true"></i></li>
+                </ul>
+            </div>
+        </div>
+
         <div id="network" style="display: flex; align-items: center; justify-content: center; color: white;">
-            <h1>建構中.......</h1>
+            <h1>Loading... <i class="fa fa-spinner fa-pulse fa-lg fa-fw"></i></h1>
         </div>
 
         <script src="libs/jquery-1.12.3.min.js"></script>

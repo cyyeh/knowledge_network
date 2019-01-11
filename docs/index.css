@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -40,4 +41,19 @@ body {
 
 #back-button {
     color: white;
+}
+
+#help-button {
+    z-index: 1000;
+    position: fixed;
+    top: 70px;
+    right: 40px;
+}
+
+#help-panel-container {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: black;
 }
