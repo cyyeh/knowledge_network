@@ -1,0 +1,38 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 10px;
+}
+
+#network {
+    width: 100%;
+    height: 100%;
+}
+
+#header-container {
+    border-bottom-color: black;
+}
+
+#headline {
+    max-width: 1000px;
+    padding: 0 16px;
+    margin: 0 auto;
+    display: flex;
+    font-size: 1.15em;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+
+a.navbar-brand {
+    position: relative;
+}
+
+#subtitle {
+    position: absolute;
+    top: 30px;
+    left: 70px;
+    width: max-content;
+}
