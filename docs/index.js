@@ -102,6 +102,7 @@ $(function() {
       url: json_path,
       dataType: "json",
       success: function(data) {
+        console.log(data);
         callback(data);
       },
       error: function(xhr, status, error) {
