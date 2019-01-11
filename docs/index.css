@@ -61,6 +61,7 @@ body {
 #help-panel {
     margin-top: 60px;
     max-height: 400px;
+    max-width: 400px;
     overflow: auto;
 }
 
