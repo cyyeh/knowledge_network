@@ -22,7 +22,8 @@ $(function() {
   }
 
   function initialize_network_config(data) {
-    
+    console.log(data);
+
     return data;
   }
 });
