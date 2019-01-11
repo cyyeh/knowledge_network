@@ -26,14 +26,14 @@ body {
     height: 60px;
 }
 
-span.navbar-brand {
+#navbar-brand {
     position: relative;
 }
 
 #subtitle {
     position: absolute;
     top: 30px;
-    left: 70px;
+    left: 50px;
     width: max-content;
     color: white;
 }
