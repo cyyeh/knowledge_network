@@ -43,6 +43,7 @@ $(function() {
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
       var node = [clickedIndex - 1];
       var node_position = network.getPositions(node)[clickedIndex - 1];
+      network.selectNodes(node);
       network.moveTo({
         position: node_position,
         scale: 1,
