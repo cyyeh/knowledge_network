@@ -12,15 +12,18 @@ total_analysis = {
 # parse categories and tags inside each blog post
 for f in directory:
     if f.endswith(".md"):  # check if it's real blog post file
-        with open(dotIO_posts_path + f, mode='r') as file_descriptor:
+        with open(dotIO_posts_path + f, mode='r', encoding='utf8') as file_descriptor:
             lines = file_descriptor.read().splitlines()
             analysis = {
                 "tags": []
             }
             filter_tags_set = {'in process', 'finished', 'waited'}
             read_tags_flag = False
+            title = ""
             for line in lines:
-                if "tags:" in line:
+                if "title:" in line:
+                    title = line.split("title: ")[-1]
+                elif "tags:" in line:
                     read_tags_flag = True
                     read_categories_flag = False
                 elif "categories:" in line:
@@ -31,8 +34,8 @@ for f in directory:
                         analysis["tags"].append(content)
                         if content not in total_analysis["tags"]:
                             total_analysis["tags"].append(content)
-                            
-            total_analysis["posts_with_tags"][f] = analysis
+
+            total_analysis["posts_with_tags"][title] = analysis
 
 # convert dictionary type to json data
 # save json data to docs/
