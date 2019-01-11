@@ -16,7 +16,8 @@ for f in directory:
             lines = file_descriptor.read().splitlines()
             analysis = {
                 "tags": [],
-                "category": ""
+                "category": "",
+                "link": ""
             }
             filter_tags_set = {'in process', 'finished', 'waited'}
             read_tags_flag = False
@@ -42,6 +43,7 @@ for f in directory:
                     elif read_categories_flag:
                         analysis["category"] = content
 
+            analysis["link"] = f.split(".md")[0]
             total_analysis["posts_with_tags"][title] = analysis
 
 # convert dictionary type to json data
