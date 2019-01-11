@@ -20,8 +20,6 @@ $(function() {
     "Learning": '<i class="fa fa-book" aria-hidden="true"></i>',
     "Research": '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>'
   };
-  var links_dict = {};
-  var descriptions_dict = {};
   var nodes_dict = {};
   var help_button = document.getElementById("help-button");
   var help_button_state_on = false;
