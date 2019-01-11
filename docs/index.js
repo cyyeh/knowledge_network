@@ -13,7 +13,7 @@ $(function() {
 
   read_json_data(json_path, draw_network);
 
-  // handel help panel
+  // handle help panel
   var help_button = document.getElementById("help-button");
   var help_button_state_on = false;
   var help_panel_container = document.getElementById("help-panel-container");
@@ -32,6 +32,24 @@ $(function() {
     help_panel_container.style.display = "none";
     help_button_state_on = !help_button_state_on;
   });
+
+  // handle search select
+  var search_select = document.getElementById("search-select");
+  function initialize_search_select(tags, network) {
+    search_select.style.display = "block";
+    $(search_select).selectpicker();
+
+    $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+      var node = [clickedIndex - 1];
+      network.selectNodes(node);
+      var node_position = network.getPositions(node)[clickedIndex - 1];
+      network.moveTo({
+        position: node_position,
+        scale: 1,
+        animation: false
+      });
+    });
+  }
 
   // use ajax to read json data
   function read_json_data(json_path, callback) {
@@ -68,25 +86,46 @@ $(function() {
           borderWidth: 3,
           shape: 'box'
         }
-      }
+      },
+      interaction: {
+        hover: true,
+        hideEdgesOnDrag: true
+      },
+      autoResize: true,
+      height: '100%',
+      width: '100%'
     };
     var container = document.getElementById("network");
 
-    new vis.Network(container, network_data, network_options);
+    network = new vis.Network(container, network_data, network_options);
+    initialize_search_select(data["tags"], network);
   }
 
   // generate network nodes and edges
   function initialize_network_data(data) {
     var posts_with_tags = data["posts_with_tags"];
-    var posts_number = 0;
+    var tags_number = 0;
     var tags = data["tags"];
     var nodes_dict = {};
     var edges = [];
     
     // generate nodes dictionary with label as key, vis node as value
+    tags.forEach(function(element, index) {
+      nodes_dict[element] = {
+        id: index,
+        label: element,
+        group: 'tag'
+      };
+
+      // add options to search select
+      $(search_select).append("<option>"+ element +"</option>");
+      
+      tags_number += 1;
+    });
+
     Object.keys(posts_with_tags).forEach(function(element, index) {
       nodes_dict[element] = {
-        id: index + 1,
+        id: tags_number + index + 1,
         label: element,
         group: 'article',
         icon: {
@@ -100,16 +139,7 @@ $(function() {
           color: 'white'
         }
       };
-      posts_number += 1;
-    });
-
-    tags.forEach(function(element, index) {
-      nodes_dict[element] = {
-        id: posts_number + index + 1,
-        label: element,
-        group: 'tag'
-      };
-    });
+    });    
 
     // generate edges
     Object.keys(posts_with_tags).forEach(function(key) {

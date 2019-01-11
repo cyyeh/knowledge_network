@@ -63,3 +63,15 @@ body {
     max-height: 400px;
     overflow: auto;
 }
+
+#search-select {
+    display: none;
+}
+
+.bootstrap-select {
+    z-index: 1000;
+    position: fixed;
+    top: 70px;
+    left: 10px;
+    color: black;
+}
