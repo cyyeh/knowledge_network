@@ -106,6 +106,14 @@ $(function() {
         window.open("/" + link);
       }
     });
+    network.on("hoverNode", function (params) {
+      if (links_dict[params.node]) {
+        network.canvas.body.container.style.cursor = 'pointer';
+      }
+    });
+    network.on("blurNode", function (params) {
+      network.canvas.body.container.style.cursor = 'default';
+    });
     initialize_search_select(data["tags"], network);
   }
 
