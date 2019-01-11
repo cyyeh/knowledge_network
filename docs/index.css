@@ -50,7 +50,7 @@ body {
     right: 10px;
 }
 
-#help-panel-container {
+#help-panel-container, #article-panel-container {
     display: none;
     align-items: center;
     justify-content: center;
@@ -58,7 +58,7 @@ body {
     color: black;
 }
 
-#help-panel {
+#help-panel, #article-panel {
     margin-top: 65px;
     max-height: 400px;
     max-width: 400px;
