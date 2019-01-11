@@ -79,11 +79,10 @@ $(function() {
   // handle search select
   function initialize_search_select(tags, network) {
     search_select.style.display = "block";
+    $(search_select).selectpicker();
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       $(search_select).selectpicker('mobile');
-    } else {
-      $(search_select).selectpicker();
-    }    
+    }
 
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
       var node = [clickedIndex - 1];
