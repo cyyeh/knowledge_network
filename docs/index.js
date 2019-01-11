@@ -31,6 +31,7 @@ $(function() {
   var article_pancel_close_button = document.getElementById("article-close-button");
   var article_title_element = document.getElementById("article-title");
   var article_list_gorup_element = document.getElementById("article-list-group");
+  $(search_select).selectpicker();
 
   read_json_data(json_path, draw_network);
 
@@ -78,7 +79,7 @@ $(function() {
 
   // handle search select
   function initialize_search_select(tags, network) {
-    $(search_select).selectpicker();
+    $(search_select).selectpicker('refresh');
 
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
       var node = [clickedIndex - 1];
