@@ -15,10 +15,12 @@ for f in directory:
         with open(dotIO_posts_path + f, mode='r', encoding='utf8') as file_descriptor:
             lines = file_descriptor.read().splitlines()
             analysis = {
-                "tags": []
+                "tags": [],
+                "category": ""
             }
             filter_tags_set = {'in process', 'finished', 'waited'}
             read_tags_flag = False
+            read_categories_flag = False
             title = ""
             for line in lines:
                 if "title:" in line:
@@ -27,6 +29,9 @@ for f in directory:
                     read_tags_flag = True
                     read_categories_flag = False
                 elif "categories:" in line:
+                    read_tags_flag = False
+                    read_categories_flag = True
+                elif "description:" in line:
                     break
                 else:
                     content = line.split("- ")[-1]
@@ -34,6 +39,8 @@ for f in directory:
                         analysis["tags"].append(content)
                         if content not in total_analysis["tags"]:
                             total_analysis["tags"].append(content)
+                    elif read_categories_flag:
+                        analysis["category"] = content
 
             total_analysis["posts_with_tags"][title] = analysis
 
