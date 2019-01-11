@@ -17,11 +17,14 @@ for f in directory:
             analysis = {
                 "tags": [],
                 "category": "",
-                "link": ""
+                "link": "",
+                "description": ""
             }
             filter_tags_set = {'in process', 'finished', 'waited'}
             read_tags_flag = False
             read_categories_flag = False
+            read_description_flag = False
+            description = ""
             title = ""
             for line in lines:
                 if "title:" in line:
@@ -33,7 +36,9 @@ for f in directory:
                     read_tags_flag = False
                     read_categories_flag = True
                 elif "description:" in line:
-                    break
+                    read_categories_flag = False
+                    read_description_flag = True
+                    description = line.split("description: ")[-1]
                 else:
                     content = line.split("- ")[-1]
                     if read_tags_flag and content not in filter_tags_set:
@@ -42,8 +47,14 @@ for f in directory:
                             total_analysis["tags"].append(content)
                     elif read_categories_flag:
                         analysis["category"] = content
+                    elif read_description_flag:
+                        if "---" == line:
+                            break
+                        else:
+                            description += line
 
             analysis["link"] = f.split(".md")[0]
+            analysis["description"] = description
             total_analysis["posts_with_tags"][title] = analysis
 
 # convert dictionary type to json data
