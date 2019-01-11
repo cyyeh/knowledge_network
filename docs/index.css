@@ -26,7 +26,7 @@ body {
     height: 60px;
 }
 
-a.navbar-brand {
+span.navbar-brand {
     position: relative;
 }
 
@@ -35,4 +35,9 @@ a.navbar-brand {
     top: 30px;
     left: 70px;
     width: max-content;
+    color: white;
+}
+
+#back-button {
+    color: #007fff;
 }
