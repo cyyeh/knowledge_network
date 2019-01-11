@@ -32,6 +32,15 @@ $(function() {
   var article_title_element = document.getElementById("article-title");
   var article_list_gorup_element = document.getElementById("article-list-group");
 
+  window.addEventListener("beforeunload", function (event) {
+    // Cancel the event as stated by the standard.
+    event.preventDefault();
+    // Chrome requires returnValue to be set.
+    event.returnValue = '';
+
+    $(search_select).selectpicker('destroy');
+  });
+
   read_json_data(json_path, draw_network);
 
   // handle help panel
@@ -79,7 +88,7 @@ $(function() {
   // handle search select
   function initialize_search_select(tags, network) {
     search_select.style.display = "block";
-    $(search_select).selectpicker('refresh');
+    $(search_select).selectpicker();
 
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
       var node = [clickedIndex - 1];
@@ -100,7 +109,6 @@ $(function() {
       url: json_path,
       dataType: "json",
       success: function(data) {
-        console.log(data);
         callback(data);
       },
       error: function(xhr, status, error) {
