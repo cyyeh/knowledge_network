@@ -35,8 +35,6 @@ $(function() {
   window.addEventListener("beforeunload", function (event) {
     // Cancel the event as stated by the standard.
     event.preventDefault();
-    // Chrome requires returnValue to be set.
-    event.returnValue = '';
 
     $(search_select).selectpicker('destroy');
   });
