@@ -32,13 +32,6 @@ $(function() {
   var article_title_element = document.getElementById("article-title");
   var article_list_gorup_element = document.getElementById("article-list-group");
 
-  window.addEventListener("beforeunload", function (event) {
-    // Cancel the event as stated by the standard.
-    event.preventDefault();
-
-    $(search_select).selectpicker('destroy');
-  });
-
   read_json_data(json_path, draw_network);
 
   // handle help panel
