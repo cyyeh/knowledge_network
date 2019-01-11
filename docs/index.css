@@ -59,10 +59,11 @@ body {
 }
 
 #help-panel {
-    margin-top: 60px;
+    margin-top: 65px;
     max-height: 400px;
     max-width: 400px;
     overflow: auto;
+    z-index: 1000;
 }
 
 #search-select {
