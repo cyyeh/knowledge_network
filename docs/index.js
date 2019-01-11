@@ -79,7 +79,7 @@ $(function() {
   // handle search select
   function initialize_search_select(tags, network) {
     search_select.style.display = "block";
-    $(search_select).selectpicker();
+    $(search_select).selectpicker('refresh');
 
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
       var node = [clickedIndex - 1];
