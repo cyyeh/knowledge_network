@@ -9,7 +9,8 @@ $(function() {
     "Software Engineering": "\uf0c0",
     "Learning": "\uf02d",
     "Research": "\uf044"
-  }
+  };
+  var links_dict = {};
 
   read_json_data(json_path, draw_network);
 
@@ -41,7 +42,6 @@ $(function() {
 
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
       var node = [clickedIndex - 1];
-      network.selectNodes(node);
       var node_position = network.getPositions(node)[clickedIndex - 1];
       network.moveTo({
         position: node_position,
@@ -98,6 +98,13 @@ $(function() {
     var container = document.getElementById("network");
 
     network = new vis.Network(container, network_data, network_options);
+    network.on("click", function(params) {
+      var node_id = params.nodes[0];
+      var link = links_dict[node_id];
+      if (link) {
+        window.open("/" + link);
+      }
+    });
     initialize_search_select(data["tags"], network);
   }
 
@@ -139,6 +146,7 @@ $(function() {
           color: 'white'
         }
       };
+      links_dict[tags_number + index + 1] = posts_with_tags[element]["link"];
     });    
 
     // generate edges
