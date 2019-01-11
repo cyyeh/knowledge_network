@@ -67,7 +67,7 @@ $(function() {
       tags_html += "</li>"
       $(article_list_gorup_element).append(tags_html);
       $(article_list_gorup_element).append('<li class="list-group-item">'+ node_data["description"] +'</li>');
-      $(article_list_gorup_element).append('<li class="list-group-item" style="text-align: center;"><a type="button" class="btn" href="/'+ node_data["link"] +' style="background-color: blue;" target="_blank">Read the article</a></li>');
+      $(article_list_gorup_element).append('<li class="list-group-item" style="text-align: center;"><a type="button" class="btn" href="https://cyyeh.github.io/'+ node_data["link"] +' style="background-color: blue;" target="_blank">Read the article</a></li>');
     }
 
     article_button_state_on = !article_button_state_on;
