@@ -4,7 +4,10 @@ import json
 
 dotIO_posts_path = "/Users/chihyu/Desktop/TYCS/dotIO/source/_posts/"
 directory = os.listdir(dotIO_posts_path)
-total_analysis = {}
+total_analysis = {
+    "posts_with_tags": {},
+    "tags": []
+}
 
 # parse categories and tags inside each blog post
 for f in directory:
@@ -26,7 +29,10 @@ for f in directory:
                     content = line.split("- ")[-1]
                     if read_tags_flag and content not in filter_tags_set:
                         analysis["tags"].append(content)
-            total_analysis[f] = analysis
+                        if content not in total_analysis["tags"]:
+                            total_analysis["tags"].append(content)
+                            
+            total_analysis["posts_with_tags"][f] = analysis
 
 # convert dictionary type to json data
 # save json data to docs/
