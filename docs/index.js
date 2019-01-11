@@ -78,7 +78,6 @@ $(function() {
 
   // handle search select
   function initialize_search_select(tags, network) {
-    $(search_select).selectpicker('destroy');
     search_select.style.display = "block";
     $(search_select).selectpicker();
 
