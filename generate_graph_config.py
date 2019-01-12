@@ -59,5 +59,5 @@ for f in directory:
 
 # convert dictionary type to json data
 # save json data to docs/
-with open("/Users/chihyu/Desktop/TYCS/knowledge_network/docs/total_analysis.json", mode="w") as f:
+with open("docs/total_analysis.json", mode="w") as f:
     json.dump(total_analysis, f)
