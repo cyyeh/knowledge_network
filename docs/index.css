@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     overflow: hidden;
+    font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
 body {
@@ -12,8 +13,12 @@ body {
     height: 100%;
 }
 
+a {
+    color: #909090;
+}
+
 #header-container {
-    border-bottom-color: black;
+    border-bottom: 1px solid black;
 }
 
 #headline {
@@ -36,11 +41,28 @@ body {
     top: 30px;
     left: 50px;
     width: max-content;
-    color: white;
+    color: #909090;
 }
 
-#back-button {
-    color: white;
+.right-header {
+    margin: 0;
+    padding: 0;
+}
+
+.right-header li {
+    list-style: none;
+    display: inline-block;
+    padding: 0 18px;
+}
+
+#home-button {
+    text-decoration: none;
+    cursor: pointer;
+    color: #909090;
+}
+
+#theme-button {
+    cursor: pointer;
 }
 
 #help-button {

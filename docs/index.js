@@ -32,12 +32,29 @@ $(function() {
   var article_pancel_close_button = document.getElementById("article-close-button");
   var article_title_element = document.getElementById("article-title");
   var article_list_gorup_element = document.getElementById("article-list-group");
+  var body_element = document.getElementsByTagName("body")[0];
+  var header_container_element = document.getElementById("header-container");
+  var theme_button = document.getElementById("theme-button");
+
+  // detect theme
+  if (window.localStorage.getItem("cyyeh-knwlet-theme") === 'light') {
+    update_theme('light');
+  }
 
   $(search_select).selectpicker();
   read_json_data(json_path, draw_network);
 
   // button event listeners
-  // handle help panel
+  theme_button.addEventListener("click", function(event) {
+    if (theme_button.innerHTML.includes("sun")) {
+      window.localStorage.setItem("cyyeh-knwlet-theme", "light");
+      update_theme('light');
+    } else {
+      window.localStorage.setItem("cyyeh-knwlet-theme", "dark");
+      update_theme('dark');
+    }
+  });
+
   help_button.addEventListener("click", function(event) {
     if (help_button_state_on) {
       help_panel_container.style.display = "none";
@@ -57,6 +74,21 @@ $(function() {
     article_panel_container.style.display = "none";
     article_button_state_on = !article_button_state_on;
   });
+
+  // update theme
+  function update_theme(target_theme) {
+    if (target_theme === 'light') {
+      body_element.classList.remove("w3-theme");
+      header_container_element.classList.remove("w3-theme-l1");
+      header_container_element.style.borderBottomColor = "#f1f1f1";
+      theme_button.innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
+    } else {
+      body_element.classList.add("w3-theme");
+      header_container_element.classList.add("w3-theme-l1");
+      header_container_element.style.borderBottomColor = "black";
+      theme_button.innerHTML = '<i class="fa fa-sun-o" style="color: white;" aria-hidden="true"></i>';
+    }
+  }
 
   // handle article panel
   function handle_article_panel(node_data) {
@@ -195,7 +227,7 @@ $(function() {
         },
         shape: 'icon',
         font: {
-          color: 'white'
+          color: 'gray'
         }
       };
       nodes_dict[node_id] = {
