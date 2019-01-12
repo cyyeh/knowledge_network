@@ -1,4 +1,5 @@
 $(function() {
+  // variable declaration
   var json_path = "total_analysis.json";
   var categories_dict_unicode = {
     "Artificial Intelligence": "\uf085",
@@ -31,10 +32,11 @@ $(function() {
   var article_pancel_close_button = document.getElementById("article-close-button");
   var article_title_element = document.getElementById("article-title");
   var article_list_gorup_element = document.getElementById("article-list-group");
-  $(search_select).selectpicker();
 
+  $(search_select).selectpicker();
   read_json_data(json_path, draw_network);
 
+  // button event listeners
   // handle help panel
   help_button.addEventListener("click", function(event) {
     if (help_button_state_on) {
@@ -49,6 +51,11 @@ $(function() {
   help_panel_close_button.addEventListener("click", function(event) {
     help_panel_container.style.display = "none";
     help_button_state_on = !help_button_state_on;
+  });
+
+  article_pancel_close_button.addEventListener("click", function(event) {
+    article_panel_container.style.display = "none";
+    article_button_state_on = !article_button_state_on;
   });
 
   // handle article panel
@@ -71,11 +78,6 @@ $(function() {
 
     article_button_state_on = !article_button_state_on;
   }
-
-  article_pancel_close_button.addEventListener("click", function(event) {
-    article_panel_container.style.display = "none";
-    article_button_state_on = !article_button_state_on;
-  });
 
   // handle search select
   function initialize_search_select(tags, network) {
