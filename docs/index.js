@@ -32,6 +32,7 @@ $(function() {
   var article_pancel_close_button = document.getElementById("article-close-button");
   var article_title_element = document.getElementById("article-title");
   var article_list_gorup_element = document.getElementById("article-list-group");
+  var article_footer_element = document.getElementById("article-footer");
   var body_element = document.getElementsByTagName("body")[0];
   var header_container_element = document.getElementById("header-container");
   var theme_button = document.getElementById("theme-button");
@@ -128,8 +129,9 @@ $(function() {
       });
       tags_html += "</li>"
       $(article_list_gorup_element).append(tags_html);
-      $(article_list_gorup_element).append('<li class="list-group-item">'+ node_data["description"] +'</li>');
-      $(article_list_gorup_element).append('<li class="list-group-item" style="text-align: center;"><a type="button" class="btn btn-primary" href="https://cyyeh.github.io/'+ node_data["link"] +'" style="-webkit-appearance: initial!important;" target="_blank">Read the article</a></li>');
+      $(article_list_gorup_element).append('<li class="list-group-item">'+ node_data["description"] +'</li></ul>');
+      article_footer_element.innerHTML = "";
+      $(article_footer_element).append('<a type="button" class="btn btn-primary" href="https://cyyeh.github.io/'+ node_data["link"] +'" style="-webkit-appearance: initial!important;" target="_blank">Read the article</a>');
     }
 
     article_button_state_on = !article_button_state_on;

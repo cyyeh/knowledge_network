@@ -86,11 +86,15 @@ a {
     color: black;
 }
 
+#help-body {
+    max-height: 357px;
+    overflow: auto;
+}
+
 #help-panel, #article-panel {
     margin-top: 65px;
-    max-height: 400px;
     max-width: 400px;
-    overflow: auto;
+    overflow: hidden;
     z-index: 1000;
 }
 
@@ -112,4 +116,26 @@ a {
     bottom: 10px;
     right: 10px;
     -webkit-appearance: initial!important;
+}
+
+.panel-heading {
+    position: relative;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.close {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+}
+
+#article-list-group {
+    max-height: 303px;
+    overflow: auto;
+}
+
+.panel-footer {
+    text-align: center;
 }
