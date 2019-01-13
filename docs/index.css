@@ -94,6 +94,10 @@ a {
     z-index: 1000;
 }
 
+#help-panel-list-group {
+    text-align: center;
+}
+
 .bootstrap-select {
     z-index: 1000;
     position: fixed;

@@ -18,8 +18,8 @@ $(function() {
     "Mathematics": '<i class="fa fa-calculator fa-lg" aria-hidden="true"></i>',
     "Programming": '<i class="fa fa-code fa-lg" aria-hidden="true"></i>',
     "Software Engineering": '<i class="fa fa-users fa-lg" aria-hidden="true"></i>',
-    "Learning": '<i class="fa fa-book" aria-hidden="true"></i>',
-    "Research": '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>'
+    "Learning": '<i class="fa fa-book fa-lg" aria-hidden="true"></i>',
+    "Research": '<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>'
   };
   var nodes_dict = {};
   var help_button = document.getElementById("help-button");
