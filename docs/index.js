@@ -47,7 +47,11 @@ $(function() {
     update_theme('light');
   }
 
-  $(search_select).selectpicker();
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+    $(search_select).selectpicker('mobile');
+  } else {
+    $(search_select).selectpicker();
+  }  
   read_json_data(json_path, draw_network);
 
   // button event listeners
