@@ -161,7 +161,7 @@ $(function() {
         callback(data);
       },
       error: function(xhr, status, error) {
-        console.log(status);
+        console.log("read json file status: " + status);
       }
     });
   }
