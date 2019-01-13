@@ -89,7 +89,7 @@ $(function() {
       header_container_element.style.borderBottomColor = "#f1f1f1";
       theme_button.innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
       if (article_nodes_index['end']) {
-        for (i = article_nodes_index['start'], i < article_nodes_index['end']; i++;) {
+        for (i = article_nodes_index['start']; i <= article_nodes_index['end']; i++) {
           var article_node = vis_nodes.get(i);
           article_node.font = {
             color: 'black'
@@ -103,7 +103,7 @@ $(function() {
       header_container_element.style.borderBottomColor = "black";
       theme_button.innerHTML = '<i class="fa fa-sun-o" style="color: white;" aria-hidden="true"></i>';
       if (article_nodes_index['end']) {
-        for (i = article_nodes_index['start'], i < article_nodes_index['end']; i++;) {
+        for (i = article_nodes_index['start']; i <= article_nodes_index['end']; i++) {
           var article_node = vis_nodes.get(i);
           article_node.font = {
             color: 'white'
@@ -196,7 +196,10 @@ $(function() {
       },
       autoResize: true,
       height: '100%',
-      width: '100%'
+      width: '100%',
+      layout: {
+        randomSeed: 67443,
+      }
     };
     var container = document.getElementById("network");
 
@@ -241,7 +244,7 @@ $(function() {
     });
 
     article_nodes_index['start'] = tags_number + 1;
-    article_nodes_index['end'] = Object.keys(posts_with_tags).length + Object.keys(tags).length;
+    article_nodes_index['end'] = tags_number + Object.keys(posts_with_tags).length;
 
     Object.keys(posts_with_tags).forEach(function(element, index) {
       node_id = tags_number + index + 1
