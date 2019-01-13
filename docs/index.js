@@ -35,9 +35,15 @@ $(function() {
   var body_element = document.getElementsByTagName("body")[0];
   var header_container_element = document.getElementById("header-container");
   var theme_button = document.getElementById("theme-button");
+  var target_theme = 'cyyeh-knwlnet-theme';
+  var vis_nodes, vis_edge;
+  var article_nodes_index = {
+    start: 0,
+    end: 0
+  };
 
   // detect theme
-  if (window.localStorage.getItem("cyyeh-knwlet-theme") === 'light') {
+  if (window.localStorage.getItem(target_theme) === 'light') {
     update_theme('light');
   }
 
@@ -47,10 +53,10 @@ $(function() {
   // button event listeners
   theme_button.addEventListener("click", function(event) {
     if (theme_button.innerHTML.includes("sun")) {
-      window.localStorage.setItem("cyyeh-knwlet-theme", "light");
+      window.localStorage.setItem(target_theme, "light");
       update_theme('light');
     } else {
-      window.localStorage.setItem("cyyeh-knwlet-theme", "dark");
+      window.localStorage.setItem(target_theme, "dark");
       update_theme('dark');
     }
   });
@@ -82,11 +88,29 @@ $(function() {
       header_container_element.classList.remove("w3-theme-l1");
       header_container_element.style.borderBottomColor = "#f1f1f1";
       theme_button.innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
+      if (article_nodes_index['end']) {
+        for (i = article_nodes_index['start'], i < article_nodes_index['end']; i++;) {
+          var article_node = vis_nodes.get(i);
+          article_node.font = {
+            color: 'black'
+          };
+          vis_nodes.update(article_node);
+        }
+      }
     } else {
       body_element.classList.add("w3-theme");
       header_container_element.classList.add("w3-theme-l1");
       header_container_element.style.borderBottomColor = "black";
       theme_button.innerHTML = '<i class="fa fa-sun-o" style="color: white;" aria-hidden="true"></i>';
+      if (article_nodes_index['end']) {
+        for (i = article_nodes_index['start'], i < article_nodes_index['end']; i++;) {
+          var article_node = vis_nodes.get(i);
+          article_node.font = {
+            color: 'white'
+          };
+          vis_nodes.update(article_node);
+        }
+      }
     }
   }
 
@@ -144,15 +168,18 @@ $(function() {
 
   // draw network using vis.js
   function draw_network(data) {
+    var article_node_color = 'white';
+    if (window.localStorage.getItem(target_theme) === 'light') {
+      article_node_color = 'black';
+    }
+
     var network_data = initialize_network_data(data);
     var network_options = {
       groups: {
         article: {
-          color: {
-            background: 'white',
-            border: 'gray'
-          },
-          borderWidth: 2,
+          font: {
+            color: article_node_color
+          }
         },
         tag: {
           color: {
@@ -213,6 +240,9 @@ $(function() {
       tags_number += 1;
     });
 
+    article_nodes_index['start'] = tags_number + 1;
+    article_nodes_index['end'] = Object.keys(posts_with_tags).length + Object.keys(tags).length;
+
     Object.keys(posts_with_tags).forEach(function(element, index) {
       node_id = tags_number + index + 1
       nodes[element] = {
@@ -225,10 +255,7 @@ $(function() {
           size: 60,
           color: 'green'
         },
-        shape: 'icon',
-        font: {
-          color: 'gray'
-        }
+        shape: 'icon'
       };
       nodes_dict[node_id] = {
         "link": posts_with_tags[element]["link"],
@@ -250,10 +277,10 @@ $(function() {
     });
 
     // create an array with nodes
-    var vis_nodes = new vis.DataSet(Object.values(nodes));
+    vis_nodes = new vis.DataSet(Object.values(nodes));
 
     // create an array with edges
-    var vis_edges = new vis.DataSet(edges);
+    vis_edges = new vis.DataSet(edges);
 
     return {
       nodes: vis_nodes,
