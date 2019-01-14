@@ -1,25 +1,39 @@
 $(function() {
   // variable declaration
   var json_path = "total_analysis.json";
-  var categories_dict_unicode = {
-    "Artificial Intelligence": "\uf085",
-    "Computer Systems": "\uf109",
-    "Data Structures & Algorithms": "\uf15c",
-    "Mathematics": "\uf1ec",
-    "Programming": "\uf121",
-    "Software Engineering": "\uf0c0",
-    "Learning": "\uf02d",
-    "Research": "\uf044"
-  };
-  var categories_dict_html = {
-    "Artificial Intelligence": '<i class="fa fa-cogs fa-lg" aria-hidden="true"></i>',
-    "Computer Systems": '<i class="fa fa-laptop fa-lg" aria-hidden="true"></i>',
-    "Data Structures & Algorithms": '<i class="fa fa-file-text fa-lg" aria-hidden="true"></i>',
-    "Mathematics": '<i class="fa fa-calculator fa-lg" aria-hidden="true"></i>',
-    "Programming": '<i class="fa fa-code fa-lg" aria-hidden="true"></i>',
-    "Software Engineering": '<i class="fa fa-users fa-lg" aria-hidden="true"></i>',
-    "Learning": '<i class="fa fa-book fa-lg" aria-hidden="true"></i>',
-    "Research": '<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>'
+  var categories_dict = {
+    "Artificial Intelligence": {
+      unicode: "\uf085",
+      html: '<i class="fa fa-cogs fa-lg" aria-hidden="true"></i>'
+    },
+    "Computer Systems": {
+      unicode: "\uf109",
+      html: '<i class="fa fa-laptop fa-lg" aria-hidden="true"></i>'
+    },
+    "Data Structures & Algorithms": {
+      unicode: "\uf15c",
+      html: '<i class="fa fa-file-text fa-lg" aria-hidden="true"></i>',
+    },
+    "Mathematics": {
+      unicode: "\uf1ec",
+      html: '<i class="fa fa-calculator fa-lg" aria-hidden="true"></i>',
+    },
+    "Programming": {
+      unicode: "\uf121",
+      html: '<i class="fa fa-code fa-lg" aria-hidden="true"></i>',
+    },
+    "Software Engineering": {
+      unicode: "\uf0c0",
+      html: '<i class="fa fa-users fa-lg" aria-hidden="true"></i>',
+    },
+    "Learning": {
+      unicode: "\uf02d",
+      html: '<i class="fa fa-book fa-lg" aria-hidden="true"></i>',
+    },
+    "Research": {
+      unicode: "\uf044",
+      html: '<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>'
+    }
   };
   var nodes_dict = {};
   var help_button = document.getElementById("help-button");
@@ -37,7 +51,7 @@ $(function() {
   var header_container_element = document.getElementById("header-container");
   var theme_button = document.getElementById("theme-button");
   var target_theme = 'cyyeh-knwlnet-theme';
-  var vis_nodes, vis_edge;
+  var vis_nodes, vis_edges;
   var article_nodes_index = {
     start: 0,
     end: 0
@@ -48,8 +62,10 @@ $(function() {
     update_theme('light');
   }
 
+  // initialize_search_select
   $(search_select).selectpicker(); 
-  read_json_data(json_path, draw_network);
+  // read_json_data => draw_network => reload_search_select
+  read_json_data(json_path, draw_network, reload_search_select);
 
   // button event listeners
   theme_button.addEventListener("click", function(event) {
@@ -121,7 +137,7 @@ $(function() {
       article_panel_container.style.display = "none";
     } else {
       article_panel_container.style.display = "flex";
-      article_title_element.innerHTML = categories_dict_html[node_data["category"]] + " " + node_data["title"];
+      article_title_element.innerHTML = categories_dict[node_data["category"]]["html"] + " " + node_data["title"];
       article_list_gorup_element.innerHTML = "";
       var tags_html = '<li class="list-group-item" style="display: grid;">';
       node_data["tags"].forEach(function(element) {
@@ -138,7 +154,7 @@ $(function() {
   }
 
   // handle search select
-  function initialize_search_select(tags, network) {
+  function reload_search_select(network) {
     $(search_select).selectpicker('refresh');
 
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
@@ -154,13 +170,13 @@ $(function() {
   }
 
   // use ajax to read json data
-  function read_json_data(json_path, callback) {
+  function read_json_data(json_path, callback, second_callback) {
     $.ajax({
       type: "get",
       url: json_path,
       dataType: "json",
       success: function(data) {
-        callback(data);
+        callback(data, second_callback);
       },
       error: function(xhr, status, error) {
         console.log("read json file status: " + status);
@@ -169,7 +185,77 @@ $(function() {
   }
 
   // draw network using vis.js
-  function draw_network(data) {
+  function draw_network(data, callback) {
+    // generate network nodes and edges
+    function initialize_network_data(data) {
+      var posts_with_tags = data["posts_with_tags"];
+      var tags_number = 0;
+      var tags = data["tags"];
+      var nodes = {};
+      var edges = [];
+      
+      // generate nodes dictionary with label as key, vis node as value
+      tags.forEach(function(element, index) {
+        nodes[element] = {
+          id: index,
+          label: element,
+          group: 'tag'
+        };
+
+        // add options to search select
+        $(search_select).append("<option>"+ element +"</option>");
+        
+        tags_number += 1;
+      });
+
+      article_nodes_index['start'] = tags_number + 1;
+      article_nodes_index['end'] = tags_number + Object.keys(posts_with_tags).length;
+
+      Object.keys(posts_with_tags).forEach(function(element, index) {
+        node_id = tags_number + index + 1
+        nodes[element] = {
+          id: node_id,
+          label: element,
+          group: 'article',
+          icon: {
+            face: 'FontAwesome',
+            code: categories_dict[posts_with_tags[element]["category"]]["unicode"],
+            size: 60,
+            color: 'green'
+          },
+          shape: 'icon'
+        };
+        nodes_dict[node_id] = {
+          "link": posts_with_tags[element]["link"],
+          "description": posts_with_tags[element]["description"],
+          "category": posts_with_tags[element]["category"],
+          "title": element,
+          "tags": posts_with_tags[element]["tags"]
+        };
+      });    
+
+      // generate edges
+      Object.keys(posts_with_tags).forEach(function(key) {
+        posts_with_tags[key]["tags"].forEach(function(tag) {
+          edges.push({
+            from: nodes[key]["id"],
+            to: nodes[tag]["id"]
+          });
+        });
+      });
+
+      // create an array with nodes
+      vis_nodes = new vis.DataSet(Object.values(nodes));
+
+      // create an array with edges
+      vis_edges = new vis.DataSet(edges);
+
+      return {
+        nodes: vis_nodes,
+        edges: vis_edges
+      };
+    }
+
     var article_node_color = 'white';
     if (window.localStorage.getItem(target_theme) === 'light') {
       article_node_color = 'black';
@@ -220,76 +306,6 @@ $(function() {
     network.on("blurNode", function (params) {
       network.canvas.body.container.style.cursor = 'default';
     });
-    initialize_search_select(data["tags"], network);
-  }
-
-  // generate network nodes and edges
-  function initialize_network_data(data) {
-    var posts_with_tags = data["posts_with_tags"];
-    var tags_number = 0;
-    var tags = data["tags"];
-    var nodes = {};
-    var edges = [];
-    
-    // generate nodes dictionary with label as key, vis node as value
-    tags.forEach(function(element, index) {
-      nodes[element] = {
-        id: index,
-        label: element,
-        group: 'tag'
-      };
-
-      // add options to search select
-      $(search_select).append("<option>"+ element +"</option>");
-      
-      tags_number += 1;
-    });
-
-    article_nodes_index['start'] = tags_number + 1;
-    article_nodes_index['end'] = tags_number + Object.keys(posts_with_tags).length;
-
-    Object.keys(posts_with_tags).forEach(function(element, index) {
-      node_id = tags_number + index + 1
-      nodes[element] = {
-        id: node_id,
-        label: element,
-        group: 'article',
-        icon: {
-          face: 'FontAwesome',
-          code: categories_dict_unicode[posts_with_tags[element]["category"]],
-          size: 60,
-          color: 'green'
-        },
-        shape: 'icon'
-      };
-      nodes_dict[node_id] = {
-        "link": posts_with_tags[element]["link"],
-        "description": posts_with_tags[element]["description"],
-        "category": posts_with_tags[element]["category"],
-        "title": element,
-        "tags": posts_with_tags[element]["tags"]
-      };
-    });    
-
-    // generate edges
-    Object.keys(posts_with_tags).forEach(function(key) {
-      posts_with_tags[key]["tags"].forEach(function(tag) {
-        edges.push({
-          from: nodes[key]["id"],
-          to: nodes[tag]["id"]
-        });
-      });
-    });
-
-    // create an array with nodes
-    vis_nodes = new vis.DataSet(Object.values(nodes));
-
-    // create an array with edges
-    vis_edges = new vis.DataSet(edges);
-
-    return {
-      nodes: vis_nodes,
-      edges: vis_edges
-    };
+    callback(network);
   }
 });
