@@ -1,4 +1,6 @@
 #! /usr/bin/env bash
-default='update json data'
-value=${1:-$default}
-python generate_graph_config.py && git add . && git commit -m value && git push
+if [[ -n "$1" ]]; then
+    python generate_graph_config.py && git add . && git commit -m $1 && git push
+else
+    python generate_graph_config.py && git add . && git commit -m "update json data" && git push
+fi
