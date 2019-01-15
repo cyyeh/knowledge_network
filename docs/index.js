@@ -424,9 +424,6 @@ $(function() {
         randomSeed: 67443
       },
       physics: {
-        barnesHut: {
-          avoidOverlap: 0.1
-        },
         timestep: 0.3
       }
     };
