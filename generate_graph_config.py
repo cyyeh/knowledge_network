@@ -53,7 +53,7 @@ for f in directory:
                         else:
                             description += line
 
-            analysis["link"] = f.split(".md")[0]
+            analysis["link"] = f.split(".md")[0] + '/'
             analysis["description"] = description
             total_analysis["posts_with_tags"][title] = analysis
 
