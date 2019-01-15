@@ -78,7 +78,7 @@ a {
     right: 10px;
 }
 
-#help-panel-container, #visnode-panel-container {
+#help-panel-container, #article-panel-container, #tag-panel-container {
     display: none;
     align-items: center;
     justify-content: center;
@@ -91,14 +91,14 @@ a {
     overflow: auto;
 }
 
-#help-panel, #visnode-panel {
+#help-panel, #article-panel, #tag-panel {
     margin-top: 65px;
     overflow: hidden;
     z-index: 1000;
 }
 
 @media (max-width: 767px) {
-    #help-panel, #visnode-panel {
+    #help-panel, #article-panel, #tag-panel {
         min-width: 300px;
         max-width: 400px;
     }
@@ -108,7 +108,7 @@ a {
 }
 
 @media (min-width: 768px) {
-    #help-panel, #visnode-panel {
+    #help-panel, #article-panel, #tag-panel {
         min-width: 600px;
         max-width: 600px;
     }
@@ -151,7 +151,7 @@ a {
     font-size: x-large;
 }
 
-#visnode-list-group {
+#article-list-group, #tag-list-group {
     overflow: auto;
 }
 

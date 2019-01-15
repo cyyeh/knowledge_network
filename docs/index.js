@@ -42,12 +42,17 @@ $(function() {
   var help_panel_container = document.getElementById("help-panel-container");
   var help_panel_close_button = document.getElementById("panel-close-button");
   var search_select = document.getElementById("search-select");
-  var visnode_button_state_on = false;
-  var visnode_panel_container = document.getElementById("visnode-panel-container");
-  var visnode_pancel_close_button = document.getElementById("visnode-close-button");
-  var visnode_title_element = document.getElementById("visnode-title");
-  var visnode_list_gorup_element = document.getElementById("visnode-list-group");
-  var visnode_footer_element = document.getElementById("visnode-footer");
+  var article_button_state_on = false;
+  var article_panel_container = document.getElementById("article-panel-container");
+  var article_pancel_close_button = document.getElementById("article-close-button");
+  var article_title_element = document.getElementById("article-title");
+  var article_list_gorup_element = document.getElementById("article-list-group");
+  var article_footer_element = document.getElementById("article-footer");
+  var tag_button_state_on = false;
+  var tag_panel_container = document.getElementById("tag-panel-container");
+  var tag_panel_close_button = document.getElementById("tag-close-button");
+  var tag_title_element = document.getElementById("tag-title");
+  var tag_list_gorup_element = document.getElementById("tag-list-group");
   var body_element = document.getElementsByTagName("body")[0];
   var header_container_element = document.getElementById("header-container");
   var theme_button = document.getElementById("theme-button");
@@ -94,9 +99,14 @@ $(function() {
     help_button_state_on = !help_button_state_on;
   });
 
-  visnode_pancel_close_button.addEventListener("click", function(event) {
-    visnode_panel_container.style.display = "none";
-    visnode_button_state_on = !visnode_button_state_on;
+  article_pancel_close_button.addEventListener("click", function(event) {
+    article_panel_container.style.display = "none";
+    article_button_state_on = !article_button_state_on;
+  });
+
+  tag_panel_close_button.addEventListener("click", function(event) {
+    tag_panel_container.style.display = "none";
+    tag_button_state_on = !tag_button_state_on;
   });
 
   // update theme
@@ -134,45 +144,44 @@ $(function() {
 
   // handle article panel
   function handle_article_panel(node_data) {
-    if (visnode_button_state_on) {
-      visnode_panel_container.style.display = "none";
+    if (article_button_state_on) {
+      article_panel_container.style.display = "none";
     } else {
-      visnode_list_gorup_element.style.maxHeight = "303px";
-      visnode_footer_element.style.display = "block";
-      visnode_panel_container.style.display = "flex";
-      visnode_title_element.innerHTML = categories_dict[node_data["category"]]["html"] + " " + node_data["title"];
-      visnode_list_gorup_element.innerHTML = "";
+      article_list_gorup_element.style.maxHeight = "303px";
+      article_footer_element.style.display = "block";
+      article_panel_container.style.display = "flex";
+      article_title_element.innerHTML = categories_dict[node_data["category"]]["html"] + " " + node_data["title"];
+      article_list_gorup_element.innerHTML = "";
       var tags_html = '<li class="list-group-item" style="display: grid;">';
       node_data["tags"].forEach(function(element) {
         tags_html += '<span class="badge badge-primary" style="font-size: small; margin-bottom: 5px;">'+ element +'</span>';
       });
       tags_html += "</li>"
-      $(visnode_list_gorup_element).append(tags_html);
-      $(visnode_list_gorup_element).append('<li class="list-group-item">'+ node_data["description"] +'</li></ul>');
-      visnode_footer_element.innerHTML = "";
-      $(visnode_footer_element).append('<a type="button" class="btn btn-primary" href="https://cyyeh.github.io/'+ node_data["link"] +'" style="-webkit-appearance: initial!important;" target="_blank">Read the article</a>');
+      $(article_list_gorup_element).append(tags_html);
+      $(article_list_gorup_element).append('<li class="list-group-item">'+ node_data["description"] +'</li></ul>');
+      article_footer_element.innerHTML = "";
+      $(article_footer_element).append('<a type="button" class="btn btn-primary" href="https://cyyeh.github.io/'+ node_data["link"] +'" style="-webkit-appearance: initial!important;" target="_blank">Read the article</a>');
     }
 
-    visnode_button_state_on = !visnode_button_state_on;
+    article_button_state_on = !article_button_state_on;
   }
 
   // handle tag panel
   function handle_tag_panel(tag_name, connected_nodes_id) {
-    if (visnode_button_state_on) {
-      visnode_panel_container.style.display = "none";
+    if (tag_button_state_on) {
+      tag_panel_container.style.display = "none";
     } else {
-      visnode_list_gorup_element.style.maxHeight = "357px";
-      visnode_footer_element.style.display = "none";
-      visnode_panel_container.style.display = "flex";
-      visnode_title_element.innerHTML = tag_name;
-      visnode_list_gorup_element.innerHTML = "";
+      tag_list_gorup_element.style.maxHeight = "357px";
+      tag_panel_container.style.display = "flex";
+      tag_title_element.innerHTML = tag_name;
+      tag_list_gorup_element.innerHTML = "";
       connected_nodes_id.forEach(function(id) {
         var article_html = nodes_dict[id]['title'];
-        $(visnode_list_gorup_element).append('<li class="list-group-item"><div class="tag-panel-article-title" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">' + article_html + '</div><a id="article-'+ id +'"type="button" class="btn btn-primary btn-xs checkout-button" style="-webkit-appearance: initial!important; position: absolute; top: 10px; right: 10px;">Check out!</a></li>');
+        $(tag_list_gorup_element).append('<li class="list-group-item"><div class="tag-panel-article-title" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">' + article_html + '</div><a id="article-'+ id +'"type="button" class="btn btn-primary btn-xs checkout-button" style="-webkit-appearance: initial!important; position: absolute; top: 10px; right: 10px;">Check out!</a></li>');
       }); 
     }
 
-    visnode_button_state_on = !visnode_button_state_on;
+    tag_button_state_on = !tag_button_state_on;
 
     var checkout_buttons = document.getElementsByClassName("checkout-button");
     for (var i = 0; i < checkout_buttons.length; i++) {
@@ -187,7 +196,6 @@ $(function() {
 
   // handle checkout button
   function handle_checkout_button(article_id) {
-    visnode_button_state_on = !visnode_button_state_on;
     handle_article_panel(nodes_dict[article_id]);
   }
 
