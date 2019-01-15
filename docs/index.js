@@ -421,7 +421,13 @@ $(function() {
       height: '100%',
       width: '100%',
       layout: {
-        randomSeed: 67443,
+        randomSeed: 67443
+      },
+      physics: {
+        barnesHut: {
+          avoidOverlap: 0.1
+        },
+        timestep: 0.3
       }
     };
     var container = document.getElementById("network");
