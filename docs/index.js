@@ -154,9 +154,9 @@ $(function() {
       article_panel_container.style.display = "flex";
       article_title_element.innerHTML = categories_dict[node_data["category"]]["html"] + " " + node_data["title"];
       article_list_gorup_element.innerHTML = "";
-      var tags_html = '<li class="list-group-item" style="display: grid;">';
+      var tags_html = '<li class="list-group-item article-list-group-item">';
       node_data["tags"].forEach(function(element) {
-        tags_html += '<span class="badge badge-primary" style="font-size: small; margin-bottom: 5px;">'+ element +'</span>';
+        tags_html += '<span class="badge badge-primary" style="font-size: small; margin-right: 5px; margin-bottom: 5px;">'+ element +'</span>';
       });
       tags_html += "</li>"
       $(article_list_gorup_element).append(tags_html);

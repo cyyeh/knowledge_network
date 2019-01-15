@@ -97,6 +97,10 @@ a {
     z-index: 1000;
 }
 
+.article-list-group-item {
+    margin-bottom: -5px;
+}
+
 @media (max-width: 767px) {
     #help-panel, #article-panel, #tag-panel {
         min-width: 300px;
@@ -104,6 +108,9 @@ a {
     }
     .tag-panel-article-title {
         max-width: 200px;
+    }
+    .article-list-group-item {
+        display: grid;
     }
 }
 
@@ -114,6 +121,11 @@ a {
     }
     .tag-panel-article-title {
         max-width: 400px;
+    }
+    .article-list-group-item {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 }
 
