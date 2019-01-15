@@ -62,6 +62,8 @@ $(function() {
     start: 0,
     end: 0
   };
+  var highlightActive = false;
+  var all_nodes;
 
   // detect theme
   if (window.localStorage.getItem(target_theme) === 'light') {
@@ -204,15 +206,91 @@ $(function() {
     $(search_select).selectpicker('refresh');
 
     $(search_select).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-      var node = [clickedIndex - 1];
-      var node_position = network.getPositions(node)[clickedIndex - 1];
-      network.selectNodes(node);
+      var tag_node_id = clickedIndex - 1;
+      var tag_node_list = [tag_node_id];
+      var tag_node_position = network.getPositions(tag_node_list)[clickedIndex - 1];
+      network.selectNodes(tag_node_list);
       network.moveTo({
-        position: node_position,
+        position: tag_node_position,
         scale: 1,
         animation: false
       });
+      network_neighborhood_highlight(tag_node_id);
     });
+  }
+
+  // neighborhood highlight and gray out other nodes
+  function network_neighborhood_highlight(node_id) {
+    // if something is selected:
+    if (!highlightActive) {
+      highlightActive = true;
+      var i,j;
+      var selectedNode = [node_id];
+      var degrees = 2;
+
+      // mark all nodes as hard to read.
+      for (var nodeId in all_nodes) {
+        if (all_nodes[nodeId].icon) {
+          all_nodes[nodeId].icon.color = 'rgba(200,200,200,0.5)';
+        } else {
+          all_nodes[nodeId].color = 'rgba(200,200,200,0.5)';
+        }
+        if (all_nodes[nodeId].hiddenLabel === undefined) {
+          all_nodes[nodeId].hiddenLabel = all_nodes[nodeId].label;
+          all_nodes[nodeId].label = undefined;
+        }
+      }
+      var connectedNodes = network.getConnectedNodes(selectedNode);
+      var allConnectedNodes = [];
+
+
+      // get the second degree nodes
+      for (i = 1; i < degrees; i++) {
+        for (j = 0; j < connectedNodes.length; j++) {
+          allConnectedNodes = allConnectedNodes.concat(network.getConnectedNodes(connectedNodes[j]));
+        }
+      }
+
+      allConnectedNodes = Array.from(new Set(allConnectedNodes));
+
+      // all second degree nodes get a different color and their label back
+      for (i = 0; i < allConnectedNodes.length; i++) {
+        all_nodes[allConnectedNodes[i]].color = 'orange';
+        if (all_nodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+          all_nodes[allConnectedNodes[i]].label = all_nodes[allConnectedNodes[i]].hiddenLabel;
+          all_nodes[allConnectedNodes[i]].hiddenLabel = undefined;
+        }
+      }
+
+      // all first degree nodes get their own color and their label back
+      for (i = 0; i < connectedNodes.length; i++) {
+        all_nodes[connectedNodes[i] - 1].icon.color = 'green';
+        if (all_nodes[connectedNodes[i] - 1].hiddenLabel !== undefined) {
+          all_nodes[connectedNodes[i] - 1].label = all_nodes[connectedNodes[i] - 1].hiddenLabel;
+          all_nodes[connectedNodes[i] - 1].hiddenLabel = undefined;
+        }
+      }
+
+      // the main node gets its own color and its label back.
+      all_nodes[selectedNode].color = 'orange';
+      if (all_nodes[selectedNode].hiddenLabel !== undefined) {
+        all_nodes[selectedNode].label = all_nodes[selectedNode].hiddenLabel;
+        all_nodes[selectedNode].hiddenLabel = undefined;
+      }
+    }
+
+    update_network();
+  }
+
+  function update_network() {
+    // transform the object into an array
+    var updateArray = [];
+    for (nodeId in all_nodes) {
+      if (all_nodes.hasOwnProperty(nodeId)) {
+        updateArray.push(all_nodes[nodeId]);
+      }
+    }
+    vis_nodes.update(updateArray); 
   }
 
   // use ajax to read json data
@@ -340,6 +418,9 @@ $(function() {
     var container = document.getElementById("network");
 
     network = new vis.Network(container, network_data, network_options);
+
+    all_nodes = vis_nodes.get({returnType: "object"});
+
     network.on("click", function(params) {
       var node_id = params.nodes[0];
       if (nodes_dict[node_id]) {
@@ -347,6 +428,21 @@ $(function() {
       } else if (tags_dict[node_id]) {
         var connected_nodes = network.getConnectedNodes(node_id);
         handle_tag_panel(tags_dict[node_id], connected_nodes);
+      } else {
+        highlightActive = false;
+        for (var nodeId in all_nodes) {
+          if (all_nodes[nodeId].icon) {
+            all_nodes[nodeId].icon.color = "green";
+          } else {
+            all_nodes[nodeId].color = "orange";
+          }
+          if (all_nodes[nodeId].hiddenLabel !== undefined) {
+            all_nodes[nodeId].label = all_nodes[nodeId].hiddenLabel;
+            all_nodes[nodeId].hiddenLabel = undefined;
+          }
+        }
+
+        update_network();  
       }
     });
     network.on("hoverNode", function (params) {
