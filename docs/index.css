@@ -109,11 +109,11 @@ a {
 
 @media (min-width: 768px) {
     #help-panel, #article-panel, #tag-panel {
-        min-width: 600px;
-        max-width: 600px;
+        min-width: 500px;
+        max-width: 500px;
     }
     .tag-panel-article-title {
-        max-width: 500px;
+        max-width: 400px;
     }
 }
 
