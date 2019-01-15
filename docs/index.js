@@ -265,6 +265,15 @@ $(function() {
       // all first degree nodes get their own color and their label back
       for (i = 0; i < connectedNodes.length; i++) {
         all_nodes[connectedNodes[i] - 1].icon.color = 'green';
+        if (window.localStorage.getItem(target_theme) === 'light') {
+          all_nodes[connectedNodes[i] - 1].font = {
+            color: 'black'
+          };
+        } else {
+          all_nodes[connectedNodes[i] - 1].font = {
+            color: 'white'
+          };
+        }
         if (all_nodes[connectedNodes[i] - 1].hiddenLabel !== undefined) {
           all_nodes[connectedNodes[i] - 1].label = all_nodes[connectedNodes[i] - 1].hiddenLabel;
           all_nodes[connectedNodes[i] - 1].hiddenLabel = undefined;
@@ -433,6 +442,15 @@ $(function() {
         for (var nodeId in all_nodes) {
           if (all_nodes[nodeId].icon) {
             all_nodes[nodeId].icon.color = "green";
+            if (window.localStorage.getItem(target_theme) === 'light') {
+              all_nodes[nodeId].font = {
+                color: 'black'
+              };
+            } else {
+              all_nodes[nodeId].font = {
+                color: 'white'
+              };
+            }
           } else {
             all_nodes[nodeId].color = "orange";
           }
