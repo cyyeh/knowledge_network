@@ -48,7 +48,7 @@ for f in directory:
                     elif read_categories_flag:
                         analysis["category"] = content
                     elif read_description_flag:
-                        if "---" == line:
+                        if "---" == line or "top:" in line:
                             break
                         else:
                             description += line
