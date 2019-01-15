@@ -78,7 +78,7 @@ a {
     right: 10px;
 }
 
-#help-panel-container, #article-panel-container {
+#help-panel-container, #visnode-panel-container {
     display: none;
     align-items: center;
     justify-content: center;
@@ -91,11 +91,30 @@ a {
     overflow: auto;
 }
 
-#help-panel, #article-panel {
+#help-panel, #visnode-panel {
     margin-top: 65px;
-    max-width: 400px;
     overflow: hidden;
     z-index: 1000;
+}
+
+@media (max-width: 767px) {
+    #help-panel, #visnode-panel {
+        min-width: 300px;
+        max-width: 400px;
+    }
+    .tag-panel-article-title {
+        max-width: 200px;
+    }
+}
+
+@media (min-width: 768px) {
+    #help-panel, #visnode-panel {
+        min-width: 600px;
+        max-width: 600px;
+    }
+    .tag-panel-article-title {
+        max-width: 500px;
+    }
 }
 
 #help-panel-list-group {
@@ -132,8 +151,7 @@ a {
     font-size: x-large;
 }
 
-#article-list-group {
-    max-height: 303px;
+#visnode-list-group {
     overflow: auto;
 }
 
