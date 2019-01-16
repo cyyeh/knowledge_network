@@ -235,7 +235,7 @@ $(function() {
         } else {
           all_nodes[nodeId].color = 'rgba(200,200,200,0.5)';
         }
-        if (all_nodes[nodeId].hiddenLabel === undefined) {
+        if (all_nodes[nodeId].hiddenLabel === undefined && all_nodes[nodeId].icon) {
           all_nodes[nodeId].hiddenLabel = all_nodes[nodeId].label;
           all_nodes[nodeId].label = undefined;
         }
@@ -256,10 +256,6 @@ $(function() {
       // all second degree nodes get a different color and their label back
       for (i = 0; i < allConnectedNodes.length; i++) {
         all_nodes[allConnectedNodes[i]].color = 'orange';
-        if (all_nodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
-          all_nodes[allConnectedNodes[i]].label = all_nodes[allConnectedNodes[i]].hiddenLabel;
-          all_nodes[allConnectedNodes[i]].hiddenLabel = undefined;
-        }
       }
 
       // all first degree nodes get their own color and their label back
@@ -274,7 +270,7 @@ $(function() {
             color: 'white'
           };
         }
-        if (all_nodes[connectedNodes[i] - 1].hiddenLabel !== undefined) {
+        if (all_nodes[connectedNodes[i] - 1].hiddenLabel !== undefined && all_nodes[connectedNodes[i] - 1].icon) {
           all_nodes[connectedNodes[i] - 1].label = all_nodes[connectedNodes[i] - 1].hiddenLabel;
           all_nodes[connectedNodes[i] - 1].hiddenLabel = undefined;
         }
@@ -282,10 +278,6 @@ $(function() {
 
       // the main node gets its own color and its label back.
       all_nodes[selectedNode].color = 'orange';
-      if (all_nodes[selectedNode].hiddenLabel !== undefined) {
-        all_nodes[selectedNode].label = all_nodes[selectedNode].hiddenLabel;
-        all_nodes[selectedNode].hiddenLabel = undefined;
-      }
     }
 
     update_network();
@@ -457,7 +449,7 @@ $(function() {
           } else {
             all_nodes[nodeId].color = "orange";
           }
-          if (all_nodes[nodeId].hiddenLabel !== undefined) {
+          if (all_nodes[nodeId].hiddenLabel !== undefined && all_nodes[nodeId].icon) {
             all_nodes[nodeId].label = all_nodes[nodeId].hiddenLabel;
             all_nodes[nodeId].hiddenLabel = undefined;
           }
